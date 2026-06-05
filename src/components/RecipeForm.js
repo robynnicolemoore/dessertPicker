@@ -52,8 +52,7 @@ export default function RecipeForm({
     onSubmit({ flavor: flavor.trim(), difficulty, occasion });
   }
 
-  const canSubmit = !isLoadingRecipes && recipeCount > 0;
-
+  const canSubmit = true;
   return (
     <form className="recipe-form" onSubmit={handleSubmit} noValidate>
       <div className="form-status">
