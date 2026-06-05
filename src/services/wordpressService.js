@@ -15,7 +15,7 @@ export async function fetchRecentRecipes() {
 
   const twelveMonthsAgo = new Date();
   twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1);
-  const after = twelveMonthsAgo.toISOString().split(".")[0];
+  //const after = twelveMonthsAgo.toISOString().split(".")[0];
 
   const url = `${WP_BASE}/wp-json/wp/v2/posts?per_page=20&_fields=title,link,tags&_embed=wp:term`;
 
