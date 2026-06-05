@@ -32,3 +32,18 @@ export async function searchRecipes(inputs) {
     }))
     .filter((r) => r.title && r.url);
 }
+function extractTags(post) {
+  const embedded = post._embedded;
+  if (!embedded) return [];
+  const terms = embedded["wp:term"] || [];
+  return terms
+    .flat()
+    .map((t) => t.name)
+    .filter(Boolean);
+}
+
+function decodeHtmlEntities(str) {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = str;
+  return txt.value;
+}
