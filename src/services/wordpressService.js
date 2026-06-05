@@ -1,8 +1,5 @@
 const WP_BASE = process.env.REACT_APP_WP_URL || "https://prettypastelitos.com";
 
-const CACHE_KEY = "recipes_cache";
-const CACHE_TTL = 1000 * 60 * 60; // 1 hour
-
 export async function searchRecipes(inputs) {
   const searchTerm = inputs.flavor || inputs.occasion || "";
   const url = `${WP_BASE}/wp-json/wp/v2/posts?per_page=20&_fields=title,link,_embedded,_links&_embed=wp:term${searchTerm ? `&search=${encodeURIComponent(searchTerm)}` : ""}`;
