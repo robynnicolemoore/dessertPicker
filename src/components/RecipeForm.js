@@ -34,8 +34,7 @@ export default function RecipeForm({
   const [difficulty, setDifficulty] = useState("");
   const [occasion, setOccasion] = useState("");
 
-  {
-    /*function toggleDietary(value) {
+  /*function toggleDietary(value) {
     if (value === "none") {
       setDietary(dietary.includes("none") ? [] : ["none"]);
       return;
@@ -47,7 +46,6 @@ export default function RecipeForm({
         : [...without, value];
     });
   }*/
-  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -72,7 +70,7 @@ export default function RecipeForm({
         )}
       </div>
 
-      {/*} <div className="form-section">
+      {/* <div className="form-section">
         <label className="form-label">Dietary Restrictions</label>
         <div className="checkbox-grid">
           {DIETARY_OPTIONS.map(opt => (
