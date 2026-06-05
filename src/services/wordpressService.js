@@ -55,16 +55,6 @@ export async function fetchRecentRecipes() {
   return results;
 }
 
-const posts = await response.json();
-
-return posts
-  .map((post) => ({
-    title: decodeHtmlEntities(post.title?.rendered || ""),
-    url: post.link || "",
-    tags: extractTags(post),
-  }))
-  .filter((r) => r.title && r.url);
-
 function extractTags(post) {
   const embedded = post._embedded;
   if (!embedded) return [];
