@@ -13,30 +13,37 @@ export async function fetchRecentRecipes() {
     }
   } catch {}
 
-  const twelveMonthsAgo = new Date();
-  twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1);
-  //const after = twelveMonthsAgo.toISOString().split(".")[0];
+  let page = 1;
+  let allPosts = [];
 
-  const url = `${WP_BASE}/wp-json/wp/v2/posts?per_page=200&_fields=title,link,tags&_embed=wp:term`;
+  while (true) {
+    const url = `${WP_BASE}/wp-json/wp/v2/posts?per_page=100&page=${page}&_fields=title,link,_embedded,_links&_embed=wp:term`;
 
-  let response;
-  try {
-    response = await fetch(url);
-  } catch {
-    throw new Error(
-      "Could not connect to the blog. Please check your connection and try again.",
-    );
+    let response;
+    try {
+      response = await fetch(url);
+    } catch {
+      throw new Error(
+        "Could not connect to the blog. Please check your connection and try again.",
+      );
+    }
+
+    // WordPress returns 400 when you go past the last page
+    if (!response.ok) {
+      if (response.status === 400 || response.status === 404) break;
+      throw new Error(
+        `The blog returned an error (${response.status}). Please try again later.`,
+      );
+    }
+
+    const posts = await response.json();
+    if (!posts.length) break;
+
+    allPosts = [...allPosts, ...posts];
+    page++;
   }
 
-  if (!response.ok) {
-    throw new Error(
-      `The blog returned an error (${response.status}). Please try again later.`,
-    );
-  }
-
-  const posts = await response.json();
-
-  const results = posts
+  const results = allPosts
     .map((post) => ({
       title: decodeHtmlEntities(post.title?.rendered || ""),
       url: post.link || "",
