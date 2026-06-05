@@ -34,7 +34,8 @@ export default function RecipeForm({
   const [difficulty, setDifficulty] = useState("");
   const [occasion, setOccasion] = useState("");
 
-  function toggleDietary(value) {
+  {
+    /*function toggleDietary(value) {
     if (value === "none") {
       setDietary(dietary.includes("none") ? [] : ["none"]);
       return;
@@ -45,6 +46,7 @@ export default function RecipeForm({
         ? without.filter((v) => v !== value)
         : [...without, value];
     });
+  }*/
   }
 
   function handleSubmit(e) {
