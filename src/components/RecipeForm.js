@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import "./RecipeForm.css";
 
-const DIETARY_OPTIONS = [
-  { value: "none", label: "No restrictions" },
-  { value: "vegan", label: "Vegan" },
-  { value: "gluten-free", label: "Gluten-Free" },
-  { value: "dairy-free", label: "Dairy-Free" },
-  { value: "nut-free", label: "Nut-Free" },
-];
+//const DIETARY_OPTIONS = [
+//  { value: "none", label: "No restrictions" },
+//  { value: "vegan", label: "Vegan" },
+//  { value: "gluten-free", label: "Gluten-Free" },
+//  { value: "dairy-free", label: "Dairy-Free" },
+//  { value: "nut-free", label: "Nut-Free" },
+//];
 
 const DIFFICULTY_OPTIONS = [
   { value: "", label: "Any difficulty" },
