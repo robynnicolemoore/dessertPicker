@@ -54,6 +54,7 @@ export async function fetchRecentRecipes() {
 
   return results;
 }
+
 const posts = await response.json();
 
 return posts
