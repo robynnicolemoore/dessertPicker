@@ -29,7 +29,7 @@ export default function RecipeForm({
   isLoadingRecipes,
   recipeCount,
 }) {
-  const [dietary, setDietary] = useState([]);
+  //const [dietary, setDietary] = useState([]);
   const [flavor, setFlavor] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [occasion, setOccasion] = useState("");
@@ -51,7 +51,7 @@ export default function RecipeForm({
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit({ dietary, flavor: flavor.trim(), difficulty, occasion });
+    onSubmit({ flavor: flavor.trim(), difficulty, occasion });
   }
 
   const canSubmit = !isLoadingRecipes && recipeCount > 0;
