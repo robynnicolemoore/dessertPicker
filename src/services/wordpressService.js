@@ -1,11 +1,23 @@
 const WP_BASE = process.env.REACT_APP_WP_URL || "https://prettypastelitos.com";
 
+const CACHE_KEY = "recipes_cache";
+const CACHE_TTL = 1000 * 60 * 60; // 1 hour
+
 export async function fetchRecentRecipes() {
+  // Check cache first
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      const { data, timestamp } = JSON.parse(cached);
+      if (Date.now() - timestamp < CACHE_TTL) return data;
+    }
+  } catch {}
+
   const twelveMonthsAgo = new Date();
   twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1);
-  const after = twelveMonthsAgo.toISOString().split(".")[0]; // removes milliseconds
+  const after = twelveMonthsAgo.toISOString().split(".")[0];
 
-  const url = `${WP_BASE}/wp-json/wp/v2/posts?per_page=100&after=${encodeURIComponent(after)}&_embed`;
+  const url = `${WP_BASE}/wp-json/wp/v2/posts?per_page=20&_fields=title,link,tags&_embed=wp:term`;
 
   let response;
   try {
@@ -24,14 +36,33 @@ export async function fetchRecentRecipes() {
 
   const posts = await response.json();
 
-  return posts
+  const results = posts
     .map((post) => ({
       title: decodeHtmlEntities(post.title?.rendered || ""),
       url: post.link || "",
       tags: extractTags(post),
     }))
     .filter((r) => r.title && r.url);
+
+  // Save to cache
+  try {
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({ data: results, timestamp: Date.now() }),
+    );
+  } catch {}
+
+  return results;
 }
+const posts = await response.json();
+
+return posts
+  .map((post) => ({
+    title: decodeHtmlEntities(post.title?.rendered || ""),
+    url: post.link || "",
+    tags: extractTags(post),
+  }))
+  .filter((r) => r.title && r.url);
 
 function extractTags(post) {
   const embedded = post._embedded;
